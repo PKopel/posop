@@ -72,13 +72,13 @@ func Add(base uint16, n []uint8, m []uint8) []uint8 {
 	r := make([]uint8, lenL, lenL+1)
 	var c uint8
 
-	for lenS >= 0 {
+	for lenS > 0 {
 		r[lenL-1], c = addPair(base, l[lenL-1], s[lenS-1], c)
 		lenL--
 		lenS--
 	}
 
-	for lenL >= 0 {
+	for lenL > 0 {
 		r[lenL-1], c = addPair(base, l[lenL-1], 0, c)
 		lenL--
 	}
