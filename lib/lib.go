@@ -17,7 +17,7 @@ func Compare(base uint16, n []uint8, m []uint8) int {
 		return -1
 	}
 	i := 0
-	for n[i] == m[i] && i < lenN {
+	for n[i] == m[i] && i < lenN-1 {
 		i++
 	}
 	if n[i] > m[i] {
