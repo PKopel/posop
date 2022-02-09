@@ -3,7 +3,7 @@ package lib
 // assumptions:
 // 1. bases are from range [2,256] (uint16)
 // 2. all numbers are from range [0,255] (uint8)
-// 3. all numbers are represented as arrays wit the most meaningful 'digit' first
+// 3. all numbers are represented as arrays with the most meaningful 'digit' first
 // 4. variables declared by 'var' are initialized to 0
 
 // result: < 0 if n < m, == 0 if n == m, > 0 if n > m
