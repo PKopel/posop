@@ -39,7 +39,7 @@ func addPair(base uint16, n uint8, m uint8, c uint8) (uint8, uint8) {
 
 	r = n16 + m16 + c16
 	if r >= base {
-		nc = r - base + 1
+		nc = 1
 		r = r % base
 	}
 
