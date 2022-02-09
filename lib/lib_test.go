@@ -13,13 +13,13 @@ func TestCompare(t *testing.T) {
 		m    []uint8
 		e    int
 	}{
-		"less than": {
+		"less than equal length": {
 			base: uint16(10),
 			n:    []uint8{1, 2, 3},
 			m:    []uint8{2, 3, 4},
 			e:    -1,
 		},
-		"greater than": {
+		"greater than equal length": {
 			base: uint16(5),
 			n:    []uint8{4, 2, 3},
 			m:    []uint8{2, 3, 4},
@@ -31,13 +31,32 @@ func TestCompare(t *testing.T) {
 			m:    []uint8{11, 22, 3},
 			e:    0,
 		},
+		"less than different length": {
+			base: uint16(10),
+			n:    []uint8{2, 3},
+			m:    []uint8{2, 3, 4},
+			e:    -1,
+		},
+		"greater than differnet length": {
+			base: uint16(5),
+			n:    []uint8{4, 2, 3},
+			m:    []uint8{3, 4},
+			e:    1,
+		},
 	}
 
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
 			r := Compare(tc.base, tc.n, tc.m)
 			if r != tc.e {
-				t.Errorf("%v should be %s %v", tc.n, name, tc.m)
+				switch {
+				case tc.e == -1:
+					t.Errorf("%v should be less than %v", tc.n, tc.m)
+				case tc.e == 1:
+					t.Errorf("%v should be greater than %v", tc.n, tc.m)
+				case tc.e == 0:
+					t.Errorf("%v should be equal %v", tc.n, tc.m)
+				}
 			}
 		})
 	}
@@ -63,11 +82,23 @@ func TestAdd(t *testing.T) {
 			m:    []uint8{1, 1, 1},
 			e:    []uint8{1, 1, 0, 0},
 		},
+		"base 11": {
+			base: uint16(11),
+			n:    []uint8{10, 0, 1},
+			m:    []uint8{1, 1},
+			e:    []uint8{10, 1, 2},
+		},
 		"base 23": {
 			base: uint16(23),
 			n:    []uint8{11, 22, 3},
 			m:    []uint8{11, 22, 3},
 			e:    []uint8{1, 0, 21, 6},
+		},
+		"base 222": {
+			base: uint16(222),
+			n:    []uint8{100, 123},
+			m:    []uint8{1, 123, 14},
+			e:    []uint8{2, 1, 137},
 		},
 	}
 
