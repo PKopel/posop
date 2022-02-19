@@ -92,6 +92,10 @@ func Add(base uint16, n []uint8, m []uint8) []uint8 {
 	return r
 }
 
+func Multiply(base uint16, n []uint8, m []uint8) []uint8 {
+	return nil
+}
+
 func Even(base uint16, n []uint8) bool {
 	lenN := len(n)
 	if base%2 == 0 || lenN == 1 {

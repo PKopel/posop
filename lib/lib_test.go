@@ -112,6 +112,56 @@ func TestAdd(t *testing.T) {
 	}
 }
 
+func TestMultiply(t *testing.T) {
+
+	cases := map[string]struct {
+		base uint16
+		n    []uint8
+		m    []uint8
+		e    []uint8
+	}{
+		"base 10": {
+			base: uint16(10),
+			n:    []uint8{1, 2, 3},
+			m:    []uint8{2, 3, 4},
+			e:    []uint8{3, 5, 7},
+		},
+		"base 2": {
+			base: uint16(2),
+			n:    []uint8{1, 0, 1},
+			m:    []uint8{1, 1, 1},
+			e:    []uint8{1, 1, 0, 0},
+		},
+		"base 11": {
+			base: uint16(11),
+			n:    []uint8{10, 0, 1},
+			m:    []uint8{1, 1},
+			e:    []uint8{10, 1, 2},
+		},
+		"base 23": {
+			base: uint16(23),
+			n:    []uint8{11, 22, 3},
+			m:    []uint8{11, 22, 3},
+			e:    []uint8{1, 0, 21, 6},
+		},
+		"base 222": {
+			base: uint16(222),
+			n:    []uint8{100, 123},
+			m:    []uint8{1, 123, 14},
+			e:    []uint8{2, 1, 137},
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			r := Multiply(tc.base, tc.n, tc.m)
+			if !bytes.Equal(r, tc.e) {
+				t.Errorf("%v + %v should be %v, is %v", tc.n, tc.m, tc.e, r)
+			}
+		})
+	}
+}
+
 func TestEven(t *testing.T) {
 
 	cases := map[string]struct {
