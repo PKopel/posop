@@ -30,25 +30,28 @@ func Compare(base uint16, n []uint8, m []uint8) int {
 	return 0
 }
 
-func addPair(base uint16, n uint8, m uint8, c uint8) (uint8, uint8) {
-	n16 := uint16(n)
-	m16 := uint16(m)
-	c16 := uint16(c)
-	var r uint16
-	var nc uint16
+func opOnPair(base uint16, op func(uint16, uint16) uint16) func(uint8, uint8, uint8) (uint8, uint8) {
+	return func(n uint8, m uint8, c uint8) (uint8, uint8) {
+		n16 := uint16(n)
+		m16 := uint16(m)
+		c16 := uint16(c)
+		var r uint16
+		var nc uint16
 
-	r = n16 + m16 + c16
-	if r >= base {
-		nc = 1
-		r = r % base
+		r = op(n16, m16) + c16
+		if r >= base {
+			nc = 1
+			r = r % base
+		}
+
+		return uint8(r), uint8(nc)
 	}
-
-	return uint8(r), uint8(nc)
 }
 
 func Add(base uint16, n []uint8, m []uint8) []uint8 {
 	lenN := len(n)
 	lenM := len(m)
+	addPair := opOnPair(base, func(a, b uint16) uint16 { return a + b })
 	// l - longer, s - shorter
 	var lenL int
 	var lenS int
@@ -73,13 +76,13 @@ func Add(base uint16, n []uint8, m []uint8) []uint8 {
 	var c uint8
 
 	for lenS > 0 {
-		r[lenL-1], c = addPair(base, l[lenL-1], s[lenS-1], c)
+		r[lenL-1], c = addPair(l[lenL-1], s[lenS-1], c)
 		lenL--
 		lenS--
 	}
 
 	for lenL > 0 {
-		r[lenL-1], c = addPair(base, l[lenL-1], 0, c)
+		r[lenL-1], c = addPair(l[lenL-1], 0, c)
 		lenL--
 	}
 
@@ -92,8 +95,45 @@ func Add(base uint16, n []uint8, m []uint8) []uint8 {
 	return r
 }
 
+func multiplyByOneDigit(base uint16, n []uint8, m uint8) []uint8 {
+	lenN := len(n)
+	mulPair := opOnPair(base, func(a, b uint16) uint16 { return a * b })
+
+	r := make([]uint8, lenN, lenN+1)
+	var c uint8
+
+	for lenN > 0 {
+		r[lenN-1], c = mulPair(n[lenN-1], m, c)
+		lenN--
+	}
+
+	if c != 0 {
+		r = append(r, 0)
+		copy(r[1:], r)
+		r[0] = c
+	}
+
+	return r
+}
+
+// returns n * m
 func Multiply(base uint16, n []uint8, m []uint8) []uint8 {
-	return nil
+	lenM := len(m)
+
+	parts := make([][]uint8, lenM)
+
+	for i := 0; lenM > i; i++ {
+		parts[i] = multiplyByOneDigit(base, n, m[lenM-i-1])
+		zeroes := make([]uint8, i)
+		parts[i] = append(parts[i], zeroes...)
+	}
+
+	s := make([]uint8, 0)
+	for _, p := range parts {
+		s = Add(base, p, s)
+	}
+
+	return s
 }
 
 func Even(base uint16, n []uint8) bool {
