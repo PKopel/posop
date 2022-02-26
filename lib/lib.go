@@ -40,7 +40,7 @@ func opOnPair(base uint16, op func(uint16, uint16) uint16) func(uint8, uint8, ui
 
 		r = op(n16, m16) + c16
 		if r >= base {
-			nc = 1
+			nc = r / base
 			r = r % base
 		}
 
