@@ -123,8 +123,8 @@ func TestMultiply(t *testing.T) {
 		"base 10": {
 			base: uint16(10),
 			n:    []uint8{6, 2},
-			m:    []uint8{2},
-			e:    []uint8{1, 2, 4},
+			m:    []uint8{4},
+			e:    []uint8{2, 4, 8},
 		},
 		"base 2": {
 			base: uint16(2),
