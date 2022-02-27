@@ -30,7 +30,10 @@ func Compare(base uint16, n []uint8, m []uint8) int {
 	return 0
 }
 
-func opOnPair(base uint16, op func(uint16, uint16) uint16) func(uint8, uint8, uint8) (uint8, uint8) {
+type binOp = func(uint16, uint16) uint16
+type carryOp = func(uint8, uint8, uint8) (uint8, uint8)
+
+func opOnPair(base uint16, op binOp) carryOp {
 	return func(n uint8, m uint8, c uint8) (uint8, uint8) {
 		n16 := uint16(n)
 		m16 := uint16(m)
