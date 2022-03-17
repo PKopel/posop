@@ -1,5 +1,21 @@
 package lib
 
+import (
+	"golang.org/x/exp/constraints"
+)
+
+type number interface {
+	constraints.Integer | constraints.Float
+}
+
+func add[T number](a, b T) T {
+	return a + b
+}
+
+func mul[T number](a, b T) T {
+	return a * b
+}
+
 // assumptions:
 // 1. bases are from range [2,256] (uint16)
 // 2. all numbers are from range [0,255] (uint8)
@@ -54,7 +70,7 @@ func opOnPair(base uint16, op binOp) carryOp {
 func Add(base uint16, n []uint8, m []uint8) []uint8 {
 	lenN := len(n)
 	lenM := len(m)
-	addPair := opOnPair(base, func(a, b uint16) uint16 { return a + b })
+	addPair := opOnPair(base, add[uint16])
 	// l - longer, s - shorter
 	var lenL int
 	var lenS int
@@ -100,7 +116,7 @@ func Add(base uint16, n []uint8, m []uint8) []uint8 {
 
 func multiplyByOneDigit(base uint16, n []uint8, m uint8) []uint8 {
 	lenN := len(n)
-	mulPair := opOnPair(base, func(a, b uint16) uint16 { return a * b })
+	mulPair := opOnPair(base, mul[uint16])
 
 	r := make([]uint8, lenN, lenN+1)
 	var c uint8
