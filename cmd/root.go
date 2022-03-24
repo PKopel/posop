@@ -12,12 +12,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const message = `Chose operation:
+const (
+	message = `Chose operation:
 1. compare
 2. add
 3. multiply
 4. check even
 Number: `
+	description = `posop is a CLI tool written in Go that allows for easy
+computations with numbers in positional systems with bases from 2
+to 256.
+	
+Example:
+  posop add -b 16 "15 1 3" "2 3 14"`
+)
 
 // rootCmd represents the base command when called without any subcommands
 var (
@@ -26,9 +34,7 @@ var (
 	rootCmd = &cobra.Command{
 		Use:   "posop",
 		Short: "Simple tool for interacting with positional systems.",
-		Long: `posop is a CLI tool written in Go that allows for easy
-computations with numbers in positional systems with bases from 2
-to 256.`,
+		Long:  description,
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Print(message)
 			var op string

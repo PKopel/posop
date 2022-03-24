@@ -17,7 +17,7 @@ run:
 	@go run main.go
 
 install:
-	@echo "building $(PROGRAM_NAME) executable"
+	@echo "installing $(PROGRAM_NAME) executable"
 	@go install
 
 test:
