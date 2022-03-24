@@ -1,6 +1,7 @@
 # posop
-Example implementation of operations on positional number systems
+Example implementation of operations on positional number systems.
+Simple CLI tool for adding, multiplying and more.
 
 ## Usage
-Run `go run main.go` in base directory and follow displayed instructions.
+Use `make` to build, run and install the `posop` CLI tool.
 

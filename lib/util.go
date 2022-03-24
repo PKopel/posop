@@ -34,3 +34,13 @@ func Rebase(oldBase uint16, newBase uint16, n []uint8) []uint8 {
 
 	return r[i:]
 }
+
+type Slice[T any] []T
+
+func (arr *Slice[T]) Get(i int, def T) T {
+	if len(*arr) > i {
+		return (*arr)[i]
+	} else {
+		return def
+	}
+}
