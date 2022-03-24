@@ -8,24 +8,18 @@ import (
 	"strings"
 )
 
-func Base() (uint16, error) {
-	var baseS string
-	fmt.Print("Enter base: ")
-	fmt.Scanln(&baseS)
-
-	if b, err := strconv.Atoi(baseS); err != nil {
-		return 0, fmt.Errorf("wrong format of base: %s, should be decimal number", baseS)
+func Number(s ...string) ([]uint8, error) {
+	var numS string
+	var err error
+	if len(s) == 0 || len(s[0]) == 0 {
+		fmt.Println("Enter number (in format <num> [space <num>], e.g. '1 2 3 12' for 0x123c):")
+		in := bufio.NewReader(os.Stdin)
+		numS, err = in.ReadString('\n')
+		if err != nil {
+			return nil, err
+		}
 	} else {
-		return uint16(b), nil
-	}
-}
-
-func Number() ([]uint8, error) {
-	fmt.Println("Enter number (in format <num> [space <num>], e.g. '1 2 3 12' for 0x123c):")
-	in := bufio.NewReader(os.Stdin)
-	numS, err := in.ReadString('\n')
-	if err != nil {
-		return nil, err
+		numS = s[0]
 	}
 
 	digitsS := strings.Fields(numS)

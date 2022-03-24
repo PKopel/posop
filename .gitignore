@@ -1,1 +1,20 @@
-.vscode
+.DS_Store
+.vscode/
+/.work
+/vendor
+/.vendor-new
+.DS_Store
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin
+
+# editor and IDE paraphernalia
+.idea
+*.swp
+*.swo
+*~
