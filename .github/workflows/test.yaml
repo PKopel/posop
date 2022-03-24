@@ -37,4 +37,4 @@ jobs:
           restore-keys: ${{ runner.os }}-pkg-
 
       - name: Test
-        run: go test -v ./...
+        run: make test

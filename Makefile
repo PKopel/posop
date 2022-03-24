@@ -19,3 +19,6 @@ run:
 install:
 	@echo "building $(PROGRAM_NAME) executable"
 	@go install
+
+test:
+	@go test -v ./...
