@@ -24,8 +24,10 @@ func mul[T number](a, b T) T {
 
 // result: < 0 if n < m, == 0 if n == m, > 0 if n > m
 func Compare(base uint16, n []uint8, m []uint8) int {
-	lenN := len(n)
-	lenM := len(m)
+	tn := Truncate(n)
+	tm := Truncate(m)
+	lenN := len(tn)
+	lenM := len(tm)
 	if lenN > lenM {
 		return 1
 	}
@@ -33,13 +35,13 @@ func Compare(base uint16, n []uint8, m []uint8) int {
 		return -1
 	}
 	i := 0
-	for n[i] == m[i] && i < lenN-1 {
+	for tn[i] == tm[i] && i < lenN-1 {
 		i++
 	}
-	if n[i] > m[i] {
+	if tn[i] > tm[i] {
 		return 1
 	}
-	if n[i] < m[i] {
+	if tn[i] < tm[i] {
 		return -1
 	}
 

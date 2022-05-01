@@ -35,6 +35,13 @@ func Rebase(oldBase uint16, newBase uint16, n []uint8) []uint8 {
 	return r[i:]
 }
 
+func Truncate(n []uint8) []uint8 {
+	zeroes := 0
+	for ; n[zeroes] == 0 && zeroes < len(n); zeroes++ {
+	}
+	return n[zeroes:]
+}
+
 type Slice[T any] []T
 
 func (arr *Slice[T]) Get(i int, def T) T {

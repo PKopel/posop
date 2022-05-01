@@ -35,5 +35,30 @@ func TestRebase(t *testing.T) {
 			}
 		})
 	}
+}
 
+func TestTruncate(t *testing.T) {
+
+	cases := map[string]struct {
+		n []uint8
+		e []uint8
+	}{
+		"no leading 0": {
+			n: []uint8{1, 2, 7},
+			e: []uint8{1, 2, 7},
+		},
+		"leading 0": {
+			n: []uint8{0, 1, 1},
+			e: []uint8{1, 1},
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			r := Truncate(tc.n)
+			if !bytes.Equal(r, tc.e) {
+				t.Errorf("truncated %v should be %v, is %v", tc.n, tc.e, r)
+			}
+		})
+	}
 }
