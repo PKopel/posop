@@ -43,6 +43,12 @@ func TestCompare(t *testing.T) {
 			m:    []uint8{3, 4},
 			e:    1,
 		},
+		"leading zeroes": {
+			base: uint16(5),
+			n:    []uint8{4, 2, 3},
+			m:    []uint8{0, 0, 3, 4},
+			e:    1,
+		},
 	}
 
 	for name, tc := range cases {
