@@ -1,4 +1,5 @@
 PROGRAM_NAME ?= posop
+VERSION ?= v0.0.2
 BIN_DIR ?= bin
 
 SUPPORTED_ARCH ?= amd64 arm64
@@ -11,7 +12,7 @@ build:
 	@go build -o $(BIN_DIR)/$(PROGRAM_NAME) main.go
 
 rename-win = $(shell mv $(BIN_DIR)/$(1) $(BIN_DIR)/$(1).exe)
-build-cmd = $(shell GOOS=$(1) GOARCH=$(2) go build -o $(BIN_DIR)/$(PROGRAM_NAME)-$(1)-$(2) main.go)
+build-cmd = $(shell GOOS=$(1) GOARCH=$(2) go build -o $(BIN_DIR)/$(PROGRAM_NAME)-$(VERSION)-$(1)-$(2) main.go)
 build-os = $(foreach arch, $(SUPPORTED_ARCH), $(call build-cmd,$(1),$(arch)))
 
 .PHONY: build-all
